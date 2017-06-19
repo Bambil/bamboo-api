@@ -71,6 +71,27 @@ class I1820Client {
     });
   }
 
+  setConfiguration(thing, configuration, callback) {
+    return new Promise((resolve, reject) => {
+      this.client.put('/thing', {
+        'type': thing.type,
+        'agent_id': thing.agentId,
+        'device_id': thing.id,
+        'settings': configuration
+      }).then(() => {
+        if (callback) {
+          callback(null);
+        }
+        return resolve();
+      }).catch((err) => {
+        if (callback) {
+          callback(err);
+        }
+        return reject(err);
+      });
+    });
+  }
+
 }
 
 module.exports = I1820Client;
