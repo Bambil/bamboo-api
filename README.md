@@ -1,5 +1,5 @@
 # API
-[![npm version](https://img.shields.io/npm/v/@i1820/api.svg?style=flat-square)](https://www.npmjs.com/package/loole)
+[![npm version](https://img.shields.io/npm/v/@i1820/api.svg?style=flat-square)](https://www.npmjs.com/package/@i1820/api)
 [![npm license](https://img.shields.io/npm/l/@i1820/api.svg?style=flat-square)]()
 [![npm](https://img.shields.io/npm/dw/@i1820/api.svg?style=flat-square)]()
 ## Introduction
