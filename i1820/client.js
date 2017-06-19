@@ -8,7 +8,9 @@
  * +===============================================
  */
 const axios = require('axios');
+
 const I1820Agent = require('./agent');
+const I1820Thing = require('./thing');
 
 
 class I1820Client {
@@ -24,9 +26,15 @@ class I1820Client {
       this.client.get('/agent').then((response) => {
         const agents = [];
         for (const id in response.data) {
+
+          const things = [];
+          response.data[id].things.forEach((thing) => {
+            things.push(new I1820Thing(thing.id, id, thing.type));
+          });
+
           agents.push(new I1820Agent(id,
             response.data[id].time,
-            response.data[id].things));
+            things));
         }
         if (callback) {
           callback(null, agents);
@@ -41,12 +49,25 @@ class I1820Client {
     });
   }
 
-  getLog(thing) {
-    this.client.post('/thing', {
-      type: thing.type,
-      agent_id: thing.agent_id,
-      device_id: thing.id,
-      states: []
+  getLog(thing, callback) {
+    return new Promise((resolve, reject) => {
+      this.client.post('/thing', {
+        'type': thing.type,
+        'agent_id': thing.agentId,
+        'device_id': thing.id,
+        'states': []
+      }).then((response) => {
+        const result = response.data;
+        if (callback) {
+          callback(null, result);
+        }
+        return resolve(result);
+      }).catch((err) => {
+        if (callback) {
+          callback(err);
+        }
+        return reject(err);
+      });
     });
   }
 
