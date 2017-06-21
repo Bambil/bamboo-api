@@ -29,7 +29,8 @@ class I1820Client {
 
           const things = [];
           response.data[id].things.forEach((thing) => {
-            things.push(new I1820Thing(thing.id, id, thing.type));
+            things.push(new I1820Thing(this.client,
+              thing.id, id, thing.type));
           });
 
           agents.push(new I1820Agent(id,
