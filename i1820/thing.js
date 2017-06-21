@@ -30,6 +30,19 @@ class I1820Thing {
       }).catch((err) => reject(err));
     });
   }
+
+  set configuration(configuration) {
+    return new Promise((resolve, reject) => {
+      this.client.put('/thing', {
+        'type': this.type,
+        'agent_id': this.agentId,
+        'device_id': this.id,
+        'settings': configuration
+      }).then(() => resolve()
+      ).catch((err) => reject(err));
+    });
+
+  }
 }
 
 module.exports = I1820Thing;
