@@ -49,50 +49,6 @@ class I1820Client {
       });
     });
   }
-
-  getLog(thing, callback) {
-    return new Promise((resolve, reject) => {
-      this.client.post('/thing', {
-        'type': thing.type,
-        'agent_id': thing.agentId,
-        'device_id': thing.id,
-        'states': []
-      }).then((response) => {
-        const result = response.data;
-        if (callback) {
-          callback(null, result);
-        }
-        return resolve(result);
-      }).catch((err) => {
-        if (callback) {
-          callback(err);
-        }
-        return reject(err);
-      });
-    });
-  }
-
-  setConfiguration(thing, configuration, callback) {
-    return new Promise((resolve, reject) => {
-      this.client.put('/thing', {
-        'type': thing.type,
-        'agent_id': thing.agentId,
-        'device_id': thing.id,
-        'settings': configuration
-      }).then(() => {
-        if (callback) {
-          callback(null);
-        }
-        return resolve();
-      }).catch((err) => {
-        if (callback) {
-          callback(err);
-        }
-        return reject(err);
-      });
-    });
-  }
-
 }
 
 module.exports = I1820Client;
