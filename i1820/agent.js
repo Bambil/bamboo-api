@@ -15,6 +15,17 @@ class I1820Agent {
     this.timestamp = new Date(timestamp);
     this.things = things;
   }
+
+  getThingsByType(type) {
+    const things = [];
+    this.things.forEach((thing) => {
+      if (thing.type === type) {
+        things.push(thing);
+      }
+    });
+    return things;
+  }
+
 }
 
 module.exports = I1820Agent;
