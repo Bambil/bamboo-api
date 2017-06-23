@@ -14,11 +14,15 @@ const I1820Thing = require('./thing');
 
 
 class I1820Client {
-  constructor(url) {
+  constructor(url, socket) {
     this.client = axios.create({
       baseURL: url,
       responseType: 'json'
     });
+
+    if (socket) {
+      this.socket = require('socket.io-client')(url);
+    }
   }
 
   discovery(callback) {
