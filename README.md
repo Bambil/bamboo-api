@@ -1,5 +1,5 @@
 # API
-[![Travis branch](https://img.shields.io/travis/I1820/api/master.svg?style=flat-square)](https://travis-ci.org/I1820/api)
+[![Travis branch](https://img.shields.io/travis/I1820/API/master.svg?style=flat-square)](https://travis-ci.org/I1820/API)
 [![npm version](https://img.shields.io/npm/v/@i1820/api.svg?style=flat-square)](https://www.npmjs.com/package/@i1820/api)
 [![npm license](https://img.shields.io/npm/l/@i1820/api.svg?style=flat-square)]()
 [![npm](https://img.shields.io/npm/dw/@i1820/api.svg?style=flat-square)]()
