@@ -6,7 +6,3 @@
 
 ## Introduction
 I1820 Application Programming Interface, let's use it in order to create awesome iot applications.
-
-## Browser Support
-[![browser support](https://ci.testling.com/I1820/API.png)
-](https://ci.testling.com/I1820/API)
