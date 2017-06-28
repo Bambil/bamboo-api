@@ -10,15 +10,15 @@
 const EventEmitter = require('events')
 
 class I1820Thing extends EventEmitter {
-  constructor(client, id, agentId, type) {
-    super();
-    this.client = client;
-    this.id = id;
-    this.agentId = agentId;
-    this.type = type;
+  constructor (client, id, agentId, type) {
+    super()
+    this.client = client
+    this.id = id
+    this.agentId = agentId
+    this.type = type
   }
 
-  get log() {
+  get log () {
     return new Promise((resolve, reject) => {
       this.client.post('/thing', {
         'type': this.type,
@@ -26,13 +26,13 @@ class I1820Thing extends EventEmitter {
         'device_id': this.id,
         'states': []
       }).then((response) => {
-        const result = response.data;
-        return resolve(result);
-      }).catch((err) => reject(err));
-    });
+        const result = response.data
+        return resolve(result)
+      }).catch((err) => reject(err))
+    })
   }
 
-  set configuration(configuration) {
+  set configuration (configuration) {
     return new Promise((resolve, reject) => {
       this.client.put('/thing', {
         'type': this.type,
@@ -40,10 +40,9 @@ class I1820Thing extends EventEmitter {
         'device_id': this.id,
         'settings': configuration
       }).then(() => resolve()
-      ).catch((err) => reject(err));
-    });
-
+      ).catch((err) => reject(err))
+    })
   }
 }
 
-module.exports = I1820Thing;
+module.exports = I1820Thing
