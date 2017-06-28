@@ -7,10 +7,11 @@
  * | File Name:     thing.js
  * +===============================================
  */
+const EventEmitter = require('events')
 
-
-class I1820Thing {
+class I1820Thing extends EventEmitter {
   constructor(client, id, agentId, type) {
+    super();
     this.client = client;
     this.id = id;
     this.agentId = agentId;
