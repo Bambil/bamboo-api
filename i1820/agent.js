@@ -8,24 +8,22 @@
  * +===============================================
  */
 
-
 class I1820Agent {
-  constructor(id, timestamp, things) {
-    this.id = id;
-    this.timestamp = new Date(timestamp);
-    this.things = things;
+  constructor (id, timestamp, things) {
+    this.id = id
+    this.timestamp = new Date(timestamp)
+    this.things = things
   }
 
-  getThingsByType(type) {
-    const things = [];
+  getThingsByType (type) {
+    const things = []
     this.things.forEach((thing) => {
       if (thing.type === type) {
-        things.push(thing);
+        things.push(thing)
       }
-    });
-    return things;
+    })
+    return things
   }
-
 }
 
-module.exports = I1820Agent;
+module.exports = I1820Agent
