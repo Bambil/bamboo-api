@@ -3,21 +3,8 @@
   "version": "2.1.0",
   "description": "I1820 Application Programming Interface",
   "main": "index.js",
-  "testling": {
-    "files": "test/*.js",
-    "browsers": [
-      "ie/6..latest",
-      "chrome/22..latest",
-      "firefox/16..latest",
-      "safari/latest",
-      "opera/11.0..latest",
-      "iphone/6",
-      "ipad/6",
-      "android-browser/latest"
-    ]
-  },
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "eslint --color **/*.js; mocha"
   },
   "repository": {
     "type": "git",
@@ -44,7 +31,7 @@
     "eslint-plugin-node": "^5.1.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "tape": "^4.6.3"
+    "mocha": "^3.4.2"
   },
   "optionalDependencies": {
     "socket.io-client": "^2.0.3"
