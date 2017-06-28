@@ -7,52 +7,50 @@
  * | File Name:     client.js
  * +===============================================
  */
-const axios = require('axios');
+const axios = require('axios')
 
-const I1820Agent = require('./agent');
-const I1820Thing = require('./thing');
-
+const I1820Agent = require('./agent')
+const I1820Thing = require('./thing')
 
 class I1820Client {
-  constructor(url, socket) {
+  constructor (url, socket) {
     this.client = axios.create({
       baseURL: url,
       responseType: 'json'
-    });
+    })
 
     if (socket) {
-      this.socket = require('socket.io-client')(url);
+      this.socket = require('socket.io-client')(url)
     }
   }
 
-  discovery(callback) {
+  discovery (callback) {
     return new Promise((resolve, reject) => {
       this.client.get('/agent').then((response) => {
-        const agents = [];
+        const agents = []
         for (const id in response.data) {
-
-          const things = [];
+          const things = []
           response.data[id].things.forEach((thing) => {
             things.push(new I1820Thing(this.client,
-              thing.id, id, thing.type));
-          });
+              thing.id, id, thing.type))
+          })
 
           agents.push(new I1820Agent(id,
             response.data[id].time,
-            things));
+            things))
         }
         if (callback) {
-          callback(null, agents);
+          callback(null, agents)
         }
-        return resolve(agents);
+        return resolve(agents)
       }).catch((err) => {
         if (callback) {
-          callback(err);
+          callback(err)
         }
-        return reject(err);
-      });
-    });
+        return reject(err)
+      })
+    })
   }
 }
 
-module.exports = I1820Client;
+module.exports = I1820Client
