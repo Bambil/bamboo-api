@@ -10,12 +10,22 @@
 const EventEmitter = require('events')
 
 class I1820Thing extends EventEmitter {
-  constructor (client, id, agentId, type) {
+  constructor (client, id, agentId, type, socket) {
     super()
     this.client = client
     this.id = id
     this.agentId = agentId
     this.type = type
+    if (socket) {
+      socket.on('raw', (message) => {
+        let result = JSON.parse(message)
+        if (result['agent_id'] === this.agentId &&
+          result['device_id'] === this.id &&
+          result['type'] === this.type) {
+          this.emit('log', result['states'])
+        }
+      })
+    }
   }
 
   get log () {
