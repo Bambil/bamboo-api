@@ -1,6 +1,6 @@
 {
   "name": "@i1820/api",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "I1820 Application Programming Interface",
   "main": "index.js",
   "scripts": {
