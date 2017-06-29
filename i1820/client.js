@@ -20,7 +20,7 @@ class I1820Client {
     })
 
     if (socket) {
-      this.socket = require('socket.io-client')(url)
+      this.socket = require('socket.io-client')(`${url}/I1820`)
     }
   }
 
