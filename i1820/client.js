@@ -32,7 +32,7 @@ class I1820Client {
           const things = []
           response.data[id].things.forEach((thing) => {
             things.push(new I1820Thing(this.client,
-              thing.id, id, thing.type))
+              thing.id, id, thing.type, this.socket))
           })
 
           agents.push(new I1820Agent(id,
