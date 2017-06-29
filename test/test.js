@@ -15,7 +15,7 @@ const assert = require('assert')
 describe('Aolab', function () {
   this.timeout(3000)
 
-  const i1820 = new I1820Client('http://iot.ceit.aut.ac.ir:58902')
+  const i1820 = new I1820Client('http://iot.ceit.aut.ac.ir:58902', true)
   let i1820Agents = []
 
   before('discovery', (done) => {
@@ -28,22 +28,18 @@ describe('Aolab', function () {
 
   describe('log', () => {
     it('mutlisensor', (done) => {
-      i1820Agents.forEach((agent) => {
-        agent.getThingsByType('multisensor')[0].log.then((result) => {
-          console.log(JSON.stringify(result['light']))
-          assert.equal(typeof result, 'object')
-          done()
-        })
+      i1820Agents[0].getThingsByType('multisensor')[0].log.then((result) => {
+        console.log(JSON.stringify(result['light']))
+        assert.equal(typeof result, 'object')
+        done()
       })
     })
 
     it('gas', (done) => {
-      i1820Agents.forEach((agent) => {
-        agent.getThingsByType('gas')[0].log.then((result) => {
-          console.log(JSON.stringify(result['gas']))
-          assert.equal(typeof result, 'object')
-          done()
-        })
+      i1820Agents[0].getThingsByType('gas')[0].log.then((result) => {
+        console.log(JSON.stringify(result['gas']))
+        assert.equal(typeof result, 'object')
+        done()
       })
     })
   })
