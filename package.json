@@ -4,7 +4,8 @@
   "description": "I1820 Application Programming Interface",
   "main": "index.js",
   "scripts": {
-    "test": "eslint --color **/*.js; mocha"
+    "test": "eslint --color **/*.js; mocha",
+    "build": "webpack --config ./webpack.config.js --progress --profile --colors"
   },
   "repository": {
     "type": "git",
@@ -31,7 +32,8 @@
     "eslint-plugin-node": "^5.1.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^3.4.2"
+    "mocha": "^3.4.2",
+    "webpack": "^3.0.0"
   },
   "optionalDependencies": {
     "socket.io-client": "^2.0.3"
