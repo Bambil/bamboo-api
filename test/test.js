@@ -13,7 +13,7 @@ const I1820Client = require('..').I1820Client
 const assert = require('assert')
 
 describe('Aolab', function () {
-  this.timeout(3000)
+  this.timeout(10000)
 
   const i1820 = new I1820Client('http://iot.ceit.aut.ac.ir:58902', true)
   let i1820Agents = []
@@ -23,6 +23,16 @@ describe('Aolab', function () {
       assert.ok(Array.isArray(agents))
       i1820Agents = agents
       done()
+    })
+  })
+
+  describe('event', () => {
+    it.skip('mutisensor', (done) => {
+      i1820Agents[0].getThingsByType('multisensor')[0].on('log', (result) => {
+        console.log(result)
+        assert.equal(typeof result, 'object')
+        done()
+      })
     })
   })
 
