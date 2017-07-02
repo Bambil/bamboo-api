@@ -1,10 +1,10 @@
 {
   "name": "@i1820/api",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "I1820 Application Programming Interface",
   "main": "index.js",
   "scripts": {
-    "test": "eslint --color i1820/*.js test/*.js; mocha",
+    "test": "eslint --color **/*.js test/*.js; mocha",
     "build": "webpack --config ./webpack.config.js --progress --profile --colors"
   },
   "repository": {
