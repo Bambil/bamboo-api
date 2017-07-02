@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 27);
+/******/ 	return __webpack_require__(__webpack_require__.s = 29);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -108,7 +108,7 @@ module.exports = g;
 
 
 var bind = __webpack_require__(11);
-var isBuffer = __webpack_require__(31);
+var isBuffer = __webpack_require__(33);
 
 /*global toString:true*/
 
@@ -779,7 +779,7 @@ Emitter.prototype.hasListeners = function(event){
  */
 
 var keys = __webpack_require__(63);
-var hasBinary = __webpack_require__(17);
+var hasBinary = __webpack_require__(19);
 var sliceBuffer = __webpack_require__(64);
 var after = __webpack_require__(65);
 var utf8 = __webpack_require__(66);
@@ -1446,7 +1446,7 @@ module.exports = function(a, b){
 
 
 var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(33);
+var normalizeHeaderName = __webpack_require__(35);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -1548,9 +1548,9 @@ module.exports = defaults;
 
 var debug = __webpack_require__(2)('socket.io-parser');
 var Emitter = __webpack_require__(3);
-var hasBin = __webpack_require__(17);
+var hasBin = __webpack_require__(19);
 var binary = __webpack_require__(56);
-var isBuf = __webpack_require__(18);
+var isBuf = __webpack_require__(20);
 
 /**
  * Protocol version.
@@ -2176,12 +2176,12 @@ module.exports = function bind(fn, thisArg) {
 
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(34);
-var buildURL = __webpack_require__(36);
-var parseHeaders = __webpack_require__(37);
-var isURLSameOrigin = __webpack_require__(38);
+var settle = __webpack_require__(36);
+var buildURL = __webpack_require__(38);
+var parseHeaders = __webpack_require__(39);
+var isURLSameOrigin = __webpack_require__(40);
 var createError = __webpack_require__(13);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(39);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(41);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -2278,7 +2278,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(40);
+      var cookies = __webpack_require__(42);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -2362,7 +2362,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(35);
+var enhanceError = __webpack_require__(37);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -2422,6 +2422,105 @@ module.exports = Cancel;
 /* 16 */
 /***/ (function(module, exports) {
 
+/*
+ * +===============================================
+ * | Author:        Parham Alvani (parham.alvani@gmail.com)
+ * |
+ * | Creation Date: 19-06-2017
+ * |
+ * | File Name:     agent.js
+ * +===============================================
+ */
+
+class I1820Agent {
+  constructor (id, timestamp, things) {
+    this.id = id
+    this.timestamp = new Date(timestamp)
+    this.things = things
+  }
+
+  getThingsByType (type) {
+    const things = []
+    this.things.forEach((thing) => {
+      if (thing.type === type) {
+        things.push(thing)
+      }
+    })
+    return things
+  }
+}
+
+module.exports = I1820Agent
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+ * +===============================================
+ * | Author:        Parham Alvani (parham.alvani@gmail.com)
+ * |
+ * | Creation Date: 19-06-2017
+ * |
+ * | File Name:     thing.js
+ * +===============================================
+ */
+const EventEmitter = __webpack_require__(50)
+
+class I1820Thing extends EventEmitter {
+  constructor (client, id, agentId, type, socket) {
+    super()
+    this.client = client
+    this.id = id
+    this.agentId = agentId
+    this.type = type
+    if (socket) {
+      socket.on('raw', (message) => {
+        let result = JSON.parse(message)
+        if (result['agent_id'] === this.agentId &&
+          result['device_id'] === this.id &&
+          result['type'] === this.type) {
+          this.emit('log', result['states'])
+        }
+      })
+    }
+  }
+
+  get log () {
+    return new Promise((resolve, reject) => {
+      this.client.post('/thing', {
+        'type': this.type,
+        'agent_id': this.agentId,
+        'device_id': this.id,
+        'states': []
+      }).then((response) => {
+        const result = response.data
+        return resolve(result)
+      }).catch((err) => reject(err))
+    })
+  }
+
+  set configuration (configuration) {
+    return new Promise((resolve, reject) => {
+      this.client.put('/thing', {
+        'type': this.type,
+        'agent_id': this.agentId,
+        'device_id': this.id,
+        'settings': configuration
+      }).then(() => resolve()
+      ).catch((err) => reject(err))
+    })
+  }
+}
+
+module.exports = I1820Thing
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
 /**
  * Parses an URI
  *
@@ -2464,7 +2563,7 @@ module.exports = function parseuri(str) {
 
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/* global Blob File */
@@ -2533,7 +2632,7 @@ function hasBinary (obj) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -2553,7 +2652,7 @@ function isBuf(obj) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2562,13 +2661,13 @@ function isBuf(obj) {
  */
 
 var eio = __webpack_require__(58);
-var Socket = __webpack_require__(24);
+var Socket = __webpack_require__(26);
 var Emitter = __webpack_require__(3);
 var parser = __webpack_require__(8);
-var on = __webpack_require__(25);
-var bind = __webpack_require__(26);
+var on = __webpack_require__(27);
+var bind = __webpack_require__(28);
 var debug = __webpack_require__(2)('socket.io-client:manager');
-var indexOf = __webpack_require__(23);
+var indexOf = __webpack_require__(25);
 var Backoff = __webpack_require__(75);
 
 /**
@@ -3132,7 +3231,7 @@ Manager.prototype.onreconnect = function () {
 
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -3192,7 +3291,7 @@ function polling (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -3203,7 +3302,7 @@ var Transport = __webpack_require__(10);
 var parseqs = __webpack_require__(5);
 var parser = __webpack_require__(4);
 var inherit = __webpack_require__(6);
-var yeast = __webpack_require__(22);
+var yeast = __webpack_require__(24);
 var debug = __webpack_require__(2)('engine.io-client:polling');
 
 /**
@@ -3443,7 +3542,7 @@ Polling.prototype.uri = function () {
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3518,7 +3617,7 @@ module.exports = yeast;
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports) {
 
 
@@ -3533,7 +3632,7 @@ module.exports = function(arr, obj){
 };
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3544,8 +3643,8 @@ module.exports = function(arr, obj){
 var parser = __webpack_require__(8);
 var Emitter = __webpack_require__(3);
 var toArray = __webpack_require__(74);
-var on = __webpack_require__(25);
-var bind = __webpack_require__(26);
+var on = __webpack_require__(27);
+var bind = __webpack_require__(28);
 var debug = __webpack_require__(2)('socket.io-client:socket');
 var parseqs = __webpack_require__(5);
 
@@ -3957,7 +4056,7 @@ Socket.prototype.compress = function (compress) {
 
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports) {
 
 
@@ -3987,7 +4086,7 @@ function on (obj, ev, fn) {
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports) {
 
 /**
@@ -4016,18 +4115,22 @@ module.exports = function(obj, fn){
 
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const I1820Client = __webpack_require__(28);
+const I1820Client = __webpack_require__(30)
+const I1820Thing = __webpack_require__(17)
+const I1820Agent = __webpack_require__(16)
 
 module.exports = {
-  I1820Client
-};
+  I1820Client,
+  I1820Thing,
+  I1820Agent
+}
 
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -4039,10 +4142,10 @@ module.exports = {
  * | File Name:     client.js
  * +===============================================
  */
-const axios = __webpack_require__(29)
+const axios = __webpack_require__(31)
 
-const I1820Agent = __webpack_require__(48)
-const I1820Thing = __webpack_require__(49)
+const I1820Agent = __webpack_require__(16)
+const I1820Thing = __webpack_require__(17)
 
 class I1820Client {
   constructor (url, socket) {
@@ -4089,13 +4192,13 @@ module.exports = I1820Client
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(30);
+module.exports = __webpack_require__(32);
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4103,7 +4206,7 @@ module.exports = __webpack_require__(30);
 
 var utils = __webpack_require__(1);
 var bind = __webpack_require__(11);
-var Axios = __webpack_require__(32);
+var Axios = __webpack_require__(34);
 var defaults = __webpack_require__(7);
 
 /**
@@ -4138,14 +4241,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(15);
-axios.CancelToken = __webpack_require__(46);
+axios.CancelToken = __webpack_require__(48);
 axios.isCancel = __webpack_require__(14);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(47);
+axios.spread = __webpack_require__(49);
 
 module.exports = axios;
 
@@ -4154,7 +4257,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports) {
 
 /*!
@@ -4181,7 +4284,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4189,10 +4292,10 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(7);
 var utils = __webpack_require__(1);
-var InterceptorManager = __webpack_require__(41);
-var dispatchRequest = __webpack_require__(42);
-var isAbsoluteURL = __webpack_require__(44);
-var combineURLs = __webpack_require__(45);
+var InterceptorManager = __webpack_require__(43);
+var dispatchRequest = __webpack_require__(44);
+var isAbsoluteURL = __webpack_require__(46);
+var combineURLs = __webpack_require__(47);
 
 /**
  * Create a new instance of Axios
@@ -4274,7 +4377,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4293,7 +4396,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4326,7 +4429,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4354,7 +4457,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4429,7 +4532,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4473,7 +4576,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4548,7 +4651,7 @@ module.exports = (
 
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4591,7 +4694,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4651,7 +4754,7 @@ module.exports = (
 
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4710,14 +4813,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var transformData = __webpack_require__(43);
+var transformData = __webpack_require__(45);
 var isCancel = __webpack_require__(14);
 var defaults = __webpack_require__(7);
 
@@ -4796,7 +4899,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4823,7 +4926,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4844,7 +4947,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4865,7 +4968,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4929,7 +5032,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4960,105 +5063,6 @@ module.exports = function spread(callback) {
     return callback.apply(null, arr);
   };
 };
-
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports) {
-
-/*
- * +===============================================
- * | Author:        Parham Alvani (parham.alvani@gmail.com)
- * |
- * | Creation Date: 19-06-2017
- * |
- * | File Name:     agent.js
- * +===============================================
- */
-
-class I1820Agent {
-  constructor (id, timestamp, things) {
-    this.id = id
-    this.timestamp = new Date(timestamp)
-    this.things = things
-  }
-
-  getThingsByType (type) {
-    const things = []
-    this.things.forEach((thing) => {
-      if (thing.type === type) {
-        things.push(thing)
-      }
-    })
-    return things
-  }
-}
-
-module.exports = I1820Agent
-
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
- * +===============================================
- * | Author:        Parham Alvani (parham.alvani@gmail.com)
- * |
- * | Creation Date: 19-06-2017
- * |
- * | File Name:     thing.js
- * +===============================================
- */
-const EventEmitter = __webpack_require__(50)
-
-class I1820Thing extends EventEmitter {
-  constructor (client, id, agentId, type, socket) {
-    super()
-    this.client = client
-    this.id = id
-    this.agentId = agentId
-    this.type = type
-    if (socket) {
-      socket.on('raw', (message) => {
-        let result = JSON.parse(message)
-        if (result['agent_id'] === this.agentId &&
-          result['device_id'] === this.id &&
-          result['type'] === this.type) {
-          this.emit('log', result['states'])
-        }
-      })
-    }
-  }
-
-  get log () {
-    return new Promise((resolve, reject) => {
-      this.client.post('/thing', {
-        'type': this.type,
-        'agent_id': this.agentId,
-        'device_id': this.id,
-        'states': []
-      }).then((response) => {
-        const result = response.data
-        return resolve(result)
-      }).catch((err) => reject(err))
-    })
-  }
-
-  set configuration (configuration) {
-    return new Promise((resolve, reject) => {
-      this.client.put('/thing', {
-        'type': this.type,
-        'agent_id': this.agentId,
-        'device_id': this.id,
-        'settings': configuration
-      }).then(() => resolve()
-      ).catch((err) => reject(err))
-    })
-  }
-}
-
-module.exports = I1820Thing
 
 
 /***/ }),
@@ -5380,7 +5384,7 @@ function isUndefined(arg) {
 
 var url = __webpack_require__(52);
 var parser = __webpack_require__(8);
-var Manager = __webpack_require__(19);
+var Manager = __webpack_require__(21);
 var debug = __webpack_require__(2)('socket.io-client');
 
 /**
@@ -5465,8 +5469,8 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = __webpack_require__(19);
-exports.Socket = __webpack_require__(24);
+exports.Manager = __webpack_require__(21);
+exports.Socket = __webpack_require__(26);
 
 
 /***/ }),
@@ -5478,7 +5482,7 @@ exports.Socket = __webpack_require__(24);
  * Module dependencies.
  */
 
-var parseuri = __webpack_require__(16);
+var parseuri = __webpack_require__(18);
 var debug = __webpack_require__(2)('socket.io-client:url');
 
 /**
@@ -5939,7 +5943,7 @@ module.exports = Array.isArray || function (arr) {
  */
 
 var isArray = __webpack_require__(57);
-var isBuf = __webpack_require__(18);
+var isBuf = __webpack_require__(20);
 var toString = Object.prototype.toString;
 var withNativeBlob = typeof global.Blob === 'function' || toString.call(global.Blob) === '[object BlobConstructor]';
 var withNativeFile = typeof global.File === 'function' || toString.call(global.File) === '[object FileConstructor]';
@@ -6119,12 +6123,12 @@ module.exports.parser = __webpack_require__(4);
  * Module dependencies.
  */
 
-var transports = __webpack_require__(20);
+var transports = __webpack_require__(22);
 var Emitter = __webpack_require__(3);
 var debug = __webpack_require__(2)('engine.io-client:socket');
-var index = __webpack_require__(23);
+var index = __webpack_require__(25);
 var parser = __webpack_require__(4);
-var parseuri = __webpack_require__(16);
+var parseuri = __webpack_require__(18);
 var parsejson = __webpack_require__(73);
 var parseqs = __webpack_require__(5);
 
@@ -6260,7 +6264,7 @@ Socket.protocol = parser.protocol; // this is an int
 
 Socket.Socket = Socket;
 Socket.Transport = __webpack_require__(10);
-Socket.transports = __webpack_require__(20);
+Socket.transports = __webpack_require__(22);
 Socket.parser = __webpack_require__(4);
 
 /**
@@ -6894,7 +6898,7 @@ try {
  */
 
 var XMLHttpRequest = __webpack_require__(9);
-var Polling = __webpack_require__(21);
+var Polling = __webpack_require__(23);
 var Emitter = __webpack_require__(3);
 var inherit = __webpack_require__(6);
 var debug = __webpack_require__(2)('engine.io-client:polling-xhr');
@@ -7873,7 +7877,7 @@ module.exports = (function() {
  * Module requirements.
  */
 
-var Polling = __webpack_require__(21);
+var Polling = __webpack_require__(23);
 var inherit = __webpack_require__(6);
 
 /**
@@ -8114,7 +8118,7 @@ var Transport = __webpack_require__(10);
 var parser = __webpack_require__(4);
 var parseqs = __webpack_require__(5);
 var inherit = __webpack_require__(6);
-var yeast = __webpack_require__(22);
+var yeast = __webpack_require__(24);
 var debug = __webpack_require__(2)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
