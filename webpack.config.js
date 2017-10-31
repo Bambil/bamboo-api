@@ -7,7 +7,7 @@ function generateConfig (name) {
     output: {
       filename: './dist/' + name + '.js',
       sourceMapFilename: './dist/' + name + '.map',
-      library: 'i1820',
+      library: 'bamboo',
       libraryTarget: 'umd'
     },
     node: {
@@ -35,4 +35,4 @@ function generateConfig (name) {
   return config
 }
 
-module.exports = generateConfig('i1820')
+module.exports = generateConfig('bamboo')
