@@ -1,7 +1,7 @@
 {
-  "name": "@i1820/api",
-  "version": "2.2.1",
-  "description": "I1820 Application Programming Interface",
+  "name": "@ibamboo/api",
+  "version": "2.3.0",
+  "description": "Bamboo API",
   "main": "index.js",
   "scripts": {
     "test": "eslint --color **/*.js test/*.js; mocha",
@@ -9,19 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/I1820/API.git"
+    "url": "git+https://github.com/bambil/bamboo-api.git"
   },
-  "keywords": [
-    "i1820",
-    "iot",
-    "iot-platform"
-  ],
   "author": "Parham Alvani <parham.alvani@gmail.com>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/I1820/API/issues"
+    "url": "https://github.com/bambil/bamboo-api/issues"
   },
-  "homepage": "https://github.com/I1820/API#readme",
+  "homepage": "https://github.com/bambil/bamboo-api#readme",
   "dependencies": {
     "axios": "^0.16.2"
   },
